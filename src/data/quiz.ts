@@ -154,7 +154,7 @@ export const quizResults: QuizResult[] = [
   },
 ];
 
-export const WHATSAPP_NUMBER = '573107158099';
+export const WHATSAPP_NUMBER = '573007239216';
 
 export function buildWhatsappMessage(level: string) {
   return `Hola, hice el diagnóstico de madurez digital de Vegora y saqué ${level}.\nQuiero agendar mi diagnóstico gratuito.`;
