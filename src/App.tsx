@@ -10,7 +10,7 @@ function App() {
   const quiz = useQuizState();
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-v-negro text-v-blanco">
+    <div className="relative min-h-dvh overflow-x-hidden bg-v-negro text-v-blanco">
       <ParticleBackground progress={quiz.orderProgress} />
       <div className="relative z-10">
         {quiz.stage === 'intro' && <Intro onStart={quiz.start} />}

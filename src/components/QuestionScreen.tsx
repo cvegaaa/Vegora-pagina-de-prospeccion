@@ -52,7 +52,7 @@ export function QuestionScreen({ step, total, question, onAnswer }: QuestionScre
   };
 
   return (
-    <div className="flex min-h-screen flex-col justify-center px-6 py-16">
+    <div className="flex min-h-dvh flex-col justify-center px-6 py-16">
       <div className="container-v">
         <ProgressBar step={displayedStep} total={total} />
         <div ref={containerRef}>

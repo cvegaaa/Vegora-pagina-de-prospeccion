@@ -25,7 +25,7 @@ export function Intro({ onStart }: IntroProps) {
   }, []);
 
   return (
-    <div ref={rootRef} className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
+    <div ref={rootRef} className="flex min-h-dvh flex-col items-center justify-center px-6 py-16 text-center">
       <span data-reveal className="eyebrow justify-center text-v-turquesa">
         <span className="h-px w-8 bg-v-turquesa" />
         Diagnóstico de Madurez Digital

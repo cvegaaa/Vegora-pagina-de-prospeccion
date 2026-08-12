@@ -28,7 +28,7 @@ export function ResultScreen({ result, onReset }: ResultScreenProps) {
   }, [result]);
 
   return (
-    <div ref={rootRef} className="flex min-h-screen flex-col items-center justify-center px-6 py-16 text-center">
+    <div ref={rootRef} className="flex min-h-dvh flex-col items-center justify-center px-6 py-16 text-center">
       <div className="container-v max-w-xl">
         <p data-reveal-level className="eyebrow justify-center text-v-turquesa">
           Tu resultado

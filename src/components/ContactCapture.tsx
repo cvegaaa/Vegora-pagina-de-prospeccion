@@ -53,7 +53,7 @@ export function ContactCapture({ score, level, answers, onSubmitted }: ContactCa
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center px-6 py-16">
+    <div className="flex min-h-dvh flex-col items-center justify-center px-6 py-16">
       <div className="container-v max-w-lg text-center">
         <h2 className="text-2xl font-semibold text-v-blanco md:text-3xl">{contactCapture.title}</h2>
         <p className="mt-4 text-sm leading-relaxed text-v-gris md:text-base">{contactCapture.text}</p>
