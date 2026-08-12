@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { MessageCircle, RotateCcw } from 'lucide-react';
 import type { QuizResult } from '@/data/quiz';
@@ -12,7 +12,7 @@ interface ResultScreenProps {
 export function ResultScreen({ result, onReset }: ResultScreenProps) {
   const rootRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!rootRef.current) return;
     const ctx = gsap.context(() => {
       gsap
@@ -24,7 +24,15 @@ export function ResultScreen({ result, onReset }: ResultScreenProps) {
           '-=0.35'
         );
     }, rootRef);
-    return () => ctx.revert();
+
+    const safety = window.setTimeout(() => {
+      gsap.set('[data-reveal-level], [data-reveal]', { clearProps: 'opacity,transform' });
+    }, 2200);
+
+    return () => {
+      window.clearTimeout(safety);
+      ctx.revert();
+    };
   }, [result]);
 
   return (

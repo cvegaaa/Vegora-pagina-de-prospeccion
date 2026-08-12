@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
 import gsap from 'gsap';
 import { intro } from '@/data/quiz';
@@ -10,7 +10,10 @@ interface IntroProps {
 export function Intro({ onStart }: IntroProps) {
   const rootRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  // useLayoutEffect (no useEffect) para que GSAP fije el estado inicial antes
+  // del primer pintado del navegador: si no, el CTA se ve un frame en su
+  // posición final y luego "desaparece" de golpe cuando el tween arranca.
+  useLayoutEffect(() => {
     if (!rootRef.current) return;
     const ctx = gsap.context(() => {
       gsap.from('[data-reveal]', {
@@ -21,7 +24,19 @@ export function Intro({ onStart }: IntroProps) {
         stagger: 0.12,
       });
     }, rootRef);
-    return () => ctx.revert();
+
+    // Salvaguarda: el tween depende de requestAnimationFrame, que se
+    // paraliza en tabs en segundo plano o navegadores in-app lentos (el
+    // origen principal del tráfico). El CTA nunca debe quedar invisible
+    // de forma permanente si eso ocurre.
+    const safety = window.setTimeout(() => {
+      gsap.set('[data-reveal]', { clearProps: 'opacity,transform' });
+    }, 1500);
+
+    return () => {
+      window.clearTimeout(safety);
+      ctx.revert();
+    };
   }, []);
 
   return (

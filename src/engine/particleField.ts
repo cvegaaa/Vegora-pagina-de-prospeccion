@@ -149,7 +149,10 @@ export class ParticleField {
     const total = this.isMobile ? 60 : 150;
     const ambientCount = Math.round(total * 0.18);
     const formationCount = total - ambientCount;
-    const coreCount = Math.round(formationCount * 0.4);
+    // La V necesita dominar visualmente el remate (Acto 3): con solo 40% de
+    // las partículas de formación, las conexiones de la "red" dispersa
+    // (sin relación con la V) diluían el trazo y la V no se leía con claridad.
+    const coreCount = Math.round(formationCount * 0.58);
     const networkCount = formationCount - coreCount;
 
     const vPoints = buildVStrokes(coreCount);
@@ -389,7 +392,13 @@ export class ParticleField {
         const maxDist = Math.min(width, height) * lerp(0.09, 0.22, order);
         const proximity = 1 - d / maxDist;
         if (proximity <= 0) continue;
-        const alpha = proximity * lerp(0.04, 0.24, order);
+        // Las conexiones entre partículas del trazo de la V se mantienen
+        // fuertes; las de la red genérica se apagan a medida que sube el
+        // order, para que la V domine visualmente el remate en vez de
+        // perderse entre el resto de las conexiones.
+        const isVLink = pi.isCore && pj.isCore && pi.strand === pj.strand;
+        const emphasis = isVLink ? 1 : lerp(1, 0.2, order);
+        const alpha = proximity * lerp(0.04, 0.24, order) * emphasis;
         const c1 = this.particleColor(pi, order);
         const c2 = this.particleColor(pj, order);
         const c = mixColor(c1, c2, 0.5);

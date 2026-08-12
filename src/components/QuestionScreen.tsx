@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import gsap from 'gsap';
 import type { QuizQuestion } from '@/data/quiz';
@@ -18,14 +18,17 @@ export function QuestionScreen({ step, total, question, onAnswer }: QuestionScre
   const [displayedStep, setDisplayedStep] = useState(step);
   const [selected, setSelected] = useState<number | null>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const el = containerRef.current;
     if (!el) return;
 
     if (isFirstRender.current) {
       isFirstRender.current = false;
       gsap.from(el, { opacity: 0, y: 16, duration: 0.5, ease: 'power2.out' });
-      return;
+      const safety = window.setTimeout(() => {
+        gsap.set(el, { clearProps: 'opacity,transform' });
+      }, 900);
+      return () => window.clearTimeout(safety);
     }
 
     // The state swap runs on a plain timer, not inside a GSAP callback: GSAP's
